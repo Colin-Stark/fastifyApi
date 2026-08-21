@@ -1,0 +1,15 @@
+node_modules
+npm-debug.log
+Dockerfile
+docker-compose.yml
+.gitignore
+.env
+.vercel
+.cache
+.dist
+.local
+npm-debug.log*
+Yarn.lock*
+Yarn.lock
+yarn.lock
+pnpm-lock.yaml

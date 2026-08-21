@@ -1,0 +1,41 @@
+{
+  "name": "fastify-vercel-docker-serverless-api",
+  "version": "0.0.1",
+  "description": "A serverless Fastify API that deploys to Vercel with Docker local development using bind mounts",
+  "keywords": [
+    "JavaScript",
+    "API",
+    "Fastify"
+  ],
+  "homepage": "https://github.com/Colin-Stark/fastifyApi#readme",
+  "bugs": {
+    "url": "https://github.com/Colin-Stark/fastifyApi/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Colin-Stark/fastifyApi.git"
+  },
+  "author": "Collins Olokpedje",
+  "type": "commonjs",
+  "main": "api/index.js",
+  "scripts": {
+    "dev": "nodemon api/index.js",
+    "start": "node api/index.js",
+    "vercel-dev": "vercel dev",
+    "vercel-deploy": "vercel --prod",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "fastify": "^4.29.1"
+  },
+  "devDependencies": {
+    "@fastify/autoload": "^6.5.0",
+    "nodemon": "^3.1.14",
+    "vercel": "^28.20.0"
+  },
+  "allowScripts": {
+    "esbuild@0.21.5": true,
+    "deasync@0.1.31": true,
+    "vercel@28.20.0": true
+  }
+}

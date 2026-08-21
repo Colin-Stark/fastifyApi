@@ -1,0 +1,13 @@
+node_modules/
+.vercel/
+.env*
+npm-debug.log*
+Dockerfile
+docker-compose.yml
+.parcel-cache
+.dist
+.worker
+.next
+out
+.cache
+.tmp
