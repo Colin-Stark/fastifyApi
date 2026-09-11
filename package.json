@@ -16,7 +16,7 @@
     "url": "git+https://github.com/Colin-Stark/fastifyApi.git"
   },
   "author": "Collins Olokpedje",
-  "type": "commonjs",
+  "type": "module",
   "main": "api/index.js",
   "scripts": {
     "dev": "nodemon api/index.js",
@@ -26,16 +26,14 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "fastify": "^4.29.1"
+    "@fastify/autoload": "^6.5.0",
+    "@fastify/postgres": "^6.1.0",
+    "dotenv": "^17.4.2",
+    "fastify": "^5.12.1",
+    "pg": "^8.23.0"
   },
   "devDependencies": {
-    "@fastify/autoload": "^6.5.0",
     "nodemon": "^3.1.14",
-    "vercel": "^28.20.0"
-  },
-  "allowScripts": {
-    "esbuild@0.21.5": true,
-    "deasync@0.1.31": true,
-    "vercel@28.20.0": true
+    "vercel": "^59.7.0"
   }
 }

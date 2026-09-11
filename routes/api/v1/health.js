@@ -4,4 +4,5 @@ async function healthRoute(fastify, options) {
     return { status: 'OK' };
   });
 }
-module.exports = healthRoute;
+
+export default healthRoute;
