@@ -1,6 +1,27 @@
 async function healthRoute(fastify, options) {
-  console.log('healthRoute called with options:', options);
-  fastify.get('/health', async (request, reply) => {
+  fastify.get('/health', {
+    schema: {
+      tags: ['health'],
+      summary: 'Health check endpoint',
+      description: 'Returns the operational status of the API service',
+      response: {
+        200: {
+          description: 'Successful response indicating service is healthy',
+          type: 'object',
+          properties: {
+            status: {
+              type: 'string',
+              example: 'OK',
+              description: 'Service status indicator'
+            }
+          },
+          example: {
+            status: 'OK'
+          }
+        }
+      }
+    }
+  }, async (request, reply) => {
     return { status: 'OK' };
   });
 }

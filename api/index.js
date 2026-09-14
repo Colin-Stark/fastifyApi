@@ -38,6 +38,10 @@ import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import postgresPlugin from '@fastify/postgres';
 
+// NEW: Import Swagger plugins
+import swagger from '@fastify/swagger';
+import swaggerUi from '@fastify/swagger-ui';
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -66,6 +70,40 @@ catch (err) {
     process.exit(1);
 }
 
+// REGISTER SWAGGER PLUGINS BEFORE ROUTES
+// ======================================
+
+// 1. Register @fastify/swagger (generates the OpenAPI specification)
+await fastify.register(swagger, {
+    openapi: {
+        openapi: '3.0.0',
+        info: {
+            title: 'Fastify API',
+            description: 'API documentation for the Fastify Vercel Docker serverless API',
+            version: '0.0.1'
+        },
+        servers: [
+            {
+                url: 'http://localhost:3000',
+                description: 'Development server'
+            }
+        ]
+    }
+});
+
+// 2. Register @fastify/swagger-ui (serves the Swagger UI interface)
+await fastify.register(swaggerUi, {
+    routePrefix: '/docs', // Swagger UI will be available at http://localhost:3000/documentation/
+    uiConfig: {
+        docExpansion: 'none', // Don't expand any operations by default
+        deepLinking: false    // Disable deep linking for simplicity
+    },
+    staticCSP: true // Enable Content Security Policy for security
+});
+
+// ======================================
+// END SWAGGER PLUGINS REGISTRATION
+
 // Register autoload
 fastify.register(autoload, {
     dir: routesDir,
@@ -79,6 +117,18 @@ fastify.setErrorHandler((error, request, reply) => {
     return reply
         .code(statusCode)
         .send({ error: error.message, statusCode });
+});
+
+// Handle nodemon's SIGUSR2 restart signal
+process.on('SIGUSR2', async () => {
+    try {
+        await fastify.close(); // Gracefully shut down the server
+        // After closing, resend SIGUSR2 so nodemon knows the process exited
+        process.kill(process.pid, 'SIGUSR2');
+    } catch (err) {
+        fastify.log.error('Error during SIGUSR2 shutdown:', err);
+        process.kill(process.pid, 'SIGUSR2'); // Still exit to let nodemon restart
+    }
 });
 
 // Conditional local server startup
