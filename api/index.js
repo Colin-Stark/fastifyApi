@@ -38,6 +38,12 @@ import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import postgresPlugin from '@fastify/postgres';
 
+// NEW: Import Security and Utility plugins
+import cors from '@fastify/cors';
+import helmet from '@fastify/helmet';
+import jwt from '@fastify/jwt';
+import rateLimit from '@fastify/rate-limit';
+
 // NEW: Import Swagger plugins
 import swagger from '@fastify/swagger';
 import swaggerUi from '@fastify/swagger-ui';
@@ -55,8 +61,39 @@ const fastify = Fastify({
     bodyLimit: 1048576 // 1MB - enables built-in JSON and urlencoded body parsing
 });
 
+// Register security plugins
+// CORS
+await fastify.register(cors, {
+    // This is important for allowing requests from frontend
+    origin: true, // reflect the request origin, as we are behind a proxy on Vercel
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    credentials: true
+});
+
+// Helmet
+await fastify.register(helmet);
+
+// JWT
+await fastify.register(jwt, {
+    secret: process.env.JWT_SECRET || 'fallback-secret-for-development-only-change-in-production'
+});
+
+// Rate limit
+await fastify.register(rateLimit, {
+    max: 100,
+    timeWindow: '1 hour',
+    // rewrite the response headers to include retry info
+    addHeaders: true,
+    // clear the stored IP after the window
+    redis: false, // we are not using redis, so use in-memory store
+    // skip failed requests (status code >= 400)
+    skipOnError: true,
+    // skip when missing IP
+    skipWhenIPInPrivateRange: false
+});
+
+// Register PostgreSQL plugin with connection string from environment variable
 try {
-    // Register PostgreSQL plugin with connection string from environment variable
     await fastify.register(postgresPlugin, {
         connectionString: process.env.DATABASE_URL,
     });
@@ -86,6 +123,20 @@ await fastify.register(swagger, {
             {
                 url: 'http://localhost:3000',
                 description: 'Development server'
+            }
+        ],
+        components: {
+            securitySchemes: {
+                bearerAuth: {
+                    type: 'http',
+                    scheme: 'bearer',
+                    bearerFormat: 'JWT',
+                }
+            }
+        },
+        security: [
+            {
+                bearerAuth: []
             }
         ]
     }

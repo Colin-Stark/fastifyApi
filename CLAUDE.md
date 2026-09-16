@@ -159,4 +159,10 @@ CREATE UNIQUE INDEX "users_pkey" ON "users" ("id");
 CREATE UNIQUE INDEX "users_username_key" ON "users" ("username");
 ALTER TABLE "accounts" ADD CONSTRAINT "accounts_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE;
 ALTER TABLE "transactions" ADD CONSTRAINT "transactions_account_id_fkey" FOREIGN KEY ("account_id") REFERENCES "accounts"("id") ON DELETE CASCADE;
+
 ```
+
+## TESTING
+call veronica to write test cases that the ci/cd will use
+
+**NOTE** : THIS NODE JS PROJECT IS AN ES MODULE PROJECT
