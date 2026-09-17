@@ -24,6 +24,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 - **Deploy to Vercel**: `npm run vercel-deploy`
   -Deploys to production (`--prod` flag)
+  
+- **Live Deployment**: https://fastify-api-xi.vercel.app/
 
 ### Testing
 - **Run tests**: `npm test`

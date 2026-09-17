@@ -46,6 +46,9 @@ This uses nodemon for hot reloading.
 
 ## Vercel Deployment
 
+### Live Demo
+The API is deployed and accessible at: **https://fastify-api-xi.vercel.app/**
+
 ### Prerequisites
 - Vercel CLI (`npm i -D vercel`)
 

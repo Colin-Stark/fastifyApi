@@ -183,19 +183,19 @@ process.on('SIGUSR2', async () => {
 });
 
 // Conditional local server startup
-// if (import.meta.main) {
-//     const start = async () => {
-//         try {
-//             const port = process.env.PORT || 3000;
-//             await fastify.listen({ port, host: '0.0.0.0' });
-//             fastify.log.info(`Server listening on localhost:${port}`);
-//         } catch (err) {
-//             fastify.log.error(err);
-//             process.exit(1);
-//         }
-//     };
-//     start();
-// }
+if (import.meta.main) {
+    const start = async () => {
+        try {
+            const port = process.env.PORT || 3000;
+            await fastify.listen({ port, host: '0.0.0.0' });
+            fastify.log.info(`Server listening on localhost:${port}`);
+        } catch (err) {
+            fastify.log.error(err);
+            process.exit(1);
+        }
+    };
+    start();
+}
 
 // Export Vercel-compatible handler
 export default async (req, res) => {
