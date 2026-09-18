@@ -20,7 +20,7 @@ async function userRoute(fastify, options) {
     };
 
     // POST /user/register - Register a new user (public)
-    fastify.post('/register', {
+    fastify.post('/user/register', {
         schema: {
             tags: ['users'],
             summary: 'Create a new user account',
@@ -134,7 +134,7 @@ async function userRoute(fastify, options) {
     });
 
     // POST /user/login - Login user and return JWT token (public)
-    fastify.post('/login', {
+    fastify.post('/user/login', {
         schema: {
             tags: ['users'],
             summary: 'Login user and get JWT token',
@@ -258,8 +258,8 @@ async function userRoute(fastify, options) {
         }
     });
 
-    // GET /user - List all users (protected)
-    fastify.get('/getUsers', {
+    // GET /user/getUsers - List all users (protected)
+    fastify.get('/user/getUsers', {
         schema: {
             tags: ['users'],
             summary: 'Get all users',
@@ -305,7 +305,7 @@ async function userRoute(fastify, options) {
     });
 
     // GET /user/:id - Get a single user by ID (protected)
-    fastify.get('/:id', {
+    fastify.get('/user/:id', {
         schema: {
             tags: ['users'],
             summary: 'Get a user by ID',
@@ -368,7 +368,7 @@ async function userRoute(fastify, options) {
     });
 
     // PUT /user/:id - Update a user (protected)
-    fastify.put('/:id', {
+    fastify.put('/user/:id', {
         schema: {
             tags: ['users'],
             summary: 'Update a user',
@@ -519,7 +519,7 @@ async function userRoute(fastify, options) {
     });
 
     // DELETE /user/:id - Delete a user (protected)
-    fastify.delete('/:id', {
+    fastify.delete('/user/:id', {
         schema: {
             tags: ['users'],
             summary: 'Delete a user',
