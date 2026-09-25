@@ -1,23 +1,9 @@
 import bcrypt from 'bcrypt';
+import { verifyToken } from '../../../utils/auth.js';
 
 async function userRoute(fastify, options) {
     console.log('userRoute called with options:', options);
 
-    // Helper to verify JWT token
-    const verifyToken = async (request, reply) => {
-        try {
-            const authHeader = request.headers.authorization;
-            if (!authHeader?.startsWith('Bearer ')) {
-                throw new Error('Missing or invalid authorization header');
-            }
-            const token = authHeader.split(' ')[1];
-            const decoded = await fastify.jwt.verify(token);
-            request.user = decoded; // Attach decoded payload to request
-            return true;
-        } catch (err) {
-            return reply.status(401).send({ error: 'Unauthorized', details: err.message });
-        }
-    };
 
     // POST /user/register - Register a new user (public)
     fastify.post('/user/register', {
@@ -292,7 +278,7 @@ async function userRoute(fastify, options) {
         }
     }, async (request, reply) => {
         // Verify token
-        const verified = await verifyToken(request, reply);
+        const verified = await verifyToken(fastify, request, reply);
         if (!verified) return; // verifyToken already sent response if failed
 
         try {
@@ -350,7 +336,7 @@ async function userRoute(fastify, options) {
         }
     }, async (request, reply) => {
         // Verify token
-        const verified = await verifyToken(request, reply);
+        const verified = await verifyToken(fastify, request, reply);
         if (!verified) return;
 
         const { id } = request.params;
@@ -451,7 +437,7 @@ async function userRoute(fastify, options) {
         }
     }, async (request, reply) => {
         // Verify token
-        const verified = await verifyToken(request, reply);
+        const verified = await verifyToken(fastify, request, reply);
         if (!verified) return;
 
         const { id } = request.params;
@@ -561,7 +547,7 @@ async function userRoute(fastify, options) {
         }
     }, async (request, reply) => {
         // Verify token
-        const verified = await verifyToken(request, reply);
+        const verified = await verifyToken(fastify, request, reply);
         if (!verified) return;
 
         const { id } = request.params;
