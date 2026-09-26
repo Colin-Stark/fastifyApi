@@ -169,4 +169,7 @@ ALTER TABLE "transactions" ADD CONSTRAINT "fk_transactions_source_account" FOREI
 
 ```
 
+## LIVE VERCEL LINK
+https://fastify-api-xi.vercel.app
+
 **NOTE** : THIS NODE JS PROJECT IS AN ES MODULE PROJECT

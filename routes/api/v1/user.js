@@ -324,6 +324,14 @@ async function userRoute(fastify, options) {
                         details: { type: 'string' }
                     }
                 },
+                403: {
+                    description: 'Forbidden - user can only access their own data',
+                    type: 'object',
+                    properties: {
+                        error: { type: 'string' },
+                        details: { type: 'string' }
+                    }
+                },
                 404: {
                     description: 'User not found',
                     type: 'object',
@@ -340,6 +348,11 @@ async function userRoute(fastify, options) {
         if (!verified) return;
 
         const { id } = request.params;
+
+        // Check if the requested user ID matches the authenticated user's ID
+        if (request.user.sub !== id) {
+            return reply.status(403).send({ error: 'Forbidden', details: 'User can only access their own data' });
+        }
 
         try {
             const result = await fastify.pg.query('SELECT id, username, email, created_at, updated_at FROM users WHERE id = $1', [id]);
@@ -417,6 +430,14 @@ async function userRoute(fastify, options) {
                         details: { type: 'string' }
                     }
                 },
+                403: {
+                    description: 'Forbidden - user can only update their own data',
+                    type: 'object',
+                    properties: {
+                        error: { type: 'string' },
+                        details: { type: 'string' }
+                    }
+                },
                 404: {
                     description: 'User not found',
                     type: 'object',
@@ -441,6 +462,12 @@ async function userRoute(fastify, options) {
         if (!verified) return;
 
         const { id } = request.params;
+
+        // Check if the requested user ID matches the authenticated user's ID
+        if (request.user.sub !== id) {
+            return reply.status(403).send({ error: 'Forbidden', details: 'User can only update their own data' });
+        }
+
         const { username, email, password } = request.body;
 
         try {
@@ -535,6 +562,14 @@ async function userRoute(fastify, options) {
                         details: { type: 'string' }
                     }
                 },
+                403: {
+                    description: 'Forbidden - user can only delete their own data',
+                    type: 'object',
+                    properties: {
+                        error: { type: 'string' },
+                        details: { type: 'string' }
+                    }
+                },
                 404: {
                     description: 'User not found',
                     type: 'object',
@@ -551,6 +586,11 @@ async function userRoute(fastify, options) {
         if (!verified) return;
 
         const { id } = request.params;
+
+        // Check if the requested user ID matches the authenticated user's ID
+        if (request.user.sub !== id) {
+            return reply.status(403).send({ error: 'Forbidden', details: 'User can only delete their own data' });
+        }
 
         try {
             const result = await fastify.pg.query('DELETE FROM users WHERE id = $1 RETURNING id', [id]);

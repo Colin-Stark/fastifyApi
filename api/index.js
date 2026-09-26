@@ -53,7 +53,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 // Compute routesDir using __dirname (available in CommonJS)
-const routesDir = join(__dirname, '..', 'routes');
+const routesDir = join(__dirname, '..', 'routes', 'api', 'v1');
 
 // Initialize Fastify instance
 const fastify = Fastify({

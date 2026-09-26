@@ -12,3 +12,5 @@ out
 .cache
 .tmp
 .neon
+.vitest
+package-lock.json
