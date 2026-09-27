@@ -130,7 +130,6 @@ async function userRoute(fastify, options) {
                 properties: {
                     emailOrUsername: {
                         type: 'string',
-                        format: 'email',
                         description: 'Email or username for login'
                     },
                     password: {
