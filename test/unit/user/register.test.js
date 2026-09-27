@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeAll, afterAll } from 'vitest';
+import { describe, it, expect, beforeAll, afterAll, afterEach } from 'vitest';
 import fastify from 'fastify';
 import userPlugin from '../../../routes/api/v1/user';
 import postgresPlugin from '@fastify/postgres';
@@ -9,6 +9,7 @@ dotenv.config();
 
 describe('User Registration Edge Cases', () => {
   let app;
+  let createdUserIds = [];
 
   beforeAll(async () => {
     app = fastify();
@@ -21,6 +22,22 @@ describe('User Registration Edge Cases', () => {
 
   afterAll(async () => {
     await app.close();
+  });
+
+  afterEach(async () => {
+    // Clean up any users created during the test
+    if (createdUserIds.length > 0) {
+      for (const userId of createdUserIds) {
+        try {
+          // Delete user directly from database using SQL
+          await app.pg.query('DELETE FROM users WHERE id = $1', [userId]);
+        } catch (error) {
+          // Ignore cleanup errors - don't let cleanup failures fail the test
+          console.warn(`Failed to cleanup user ${userId}:`, error.message);
+        }
+      }
+      createdUserIds = [];
+    }
   });
 
   // Test successful registration
@@ -47,6 +64,9 @@ describe('User Registration Edge Cases', () => {
     expect(user.email).toBe(email);
     expect(user).toHaveProperty('created_at');
     expect(user).toHaveProperty('updated_at');
+
+    // Track user ID for cleanup
+    createdUserIds.push(user.id);
   });
 
   // Test username validation - too short
@@ -200,6 +220,9 @@ describe('User Registration Edge Cases', () => {
     expect(response.statusCode).toBe(201);
     const user = response.json();
     expect(user.username).toBe(`testuser_${timestamp}`); // Should be trimmed
+
+    // Track user ID for cleanup
+    createdUserIds.push(user.id);
   });
 
   // Test duplicate username
@@ -211,7 +234,7 @@ describe('User Registration Edge Cases', () => {
     const password = timestamp.toString();
 
     // Create first user
-    await app.inject({
+    const response1 = await app.inject({
       method: 'POST',
       url: '/user/register',
       payload: {
@@ -220,6 +243,10 @@ describe('User Registration Edge Cases', () => {
         password: password
       }
     });
+
+    // Track first user ID for cleanup
+    const user1 = response1.json();
+    createdUserIds.push(user1.id);
 
     // Try to create second user with same username
     const response = await app.inject({
@@ -247,7 +274,7 @@ describe('User Registration Edge Cases', () => {
     const password = timestamp.toString();
 
     // Create first user
-    await app.inject({
+    const response1 = await app.inject({
       method: 'POST',
       url: '/user/register',
       payload: {
@@ -256,6 +283,10 @@ describe('User Registration Edge Cases', () => {
         password: password
       }
     });
+
+    // Track first user ID for cleanup
+    const user1 = response1.json();
+    createdUserIds.push(user1.id);
 
     // Try to create second user with same email
     const response = await app.inject({
