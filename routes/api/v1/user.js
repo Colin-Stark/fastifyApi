@@ -80,11 +80,10 @@ async function userRoute(fastify, options) {
             }
         }
     }, async (request, reply) => {
-        const {
-            username = request.body.username?.trim(), // Trim whitespace from username
-            email = request.body.email?.trim().toLowerCase(), // Trim whitespace and convert email to lowercase
-            password = request.body.password
-        } = request.body;
+        const username = request.body.username?.trim();
+        const email = request.body.email?.trim().toLowerCase();
+        const password = request.body.password;
+
 
         try {
             // Check if the username or email already exists
@@ -131,6 +130,7 @@ async function userRoute(fastify, options) {
                 properties: {
                     emailOrUsername: {
                         type: 'string',
+                        format: 'email',
                         description: 'Email or username for login'
                     },
                     password: {
@@ -193,11 +193,14 @@ async function userRoute(fastify, options) {
             });
         }
 
+        // Trim whitespace from input
+        const trimmedInput = emailOrUsername.trim();
+
         try {
-            // Find user by email or username
+            // Find user by email (case-insensitive) or username (case-sensitive)
             const userResult = await fastify.pg.query(
-                'SELECT id, username, email, password_hash FROM users WHERE email = $1 OR username = $1',
-                [emailOrUsername.toLowerCase()]
+                'SELECT id, username, email, password_hash FROM users WHERE LOWER(email) = $1 OR username = $2',
+                [trimmedInput.toLowerCase(), trimmedInput]
             );
 
             if (userResult.rows.length === 0) {
