@@ -185,6 +185,7 @@ async function userRoute(fastify, options) {
     }, async (request, reply) => {
         const { emailOrUsername, password } = request.body;
 
+        // Check if emailOrUsername or password is missing
         if (!emailOrUsername || !password) {
             return reply.status(400).send({
                 error: 'Validation failed',
