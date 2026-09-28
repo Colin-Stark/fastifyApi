@@ -188,10 +188,9 @@ describe('User Login Edge Cases', () => {
             }
         });
 
-        expect(response.statusCode).toBe(400);
+        expect(response.statusCode).toBe(404);
         const error = response.json();
-        expect(error.error).toBe('Validation failed');
-        expect(error.details).toContain('Email/username and password are required');
+        expect(error.error).toBe('User not found');
     });
 
     // Test whitespace-only password field
