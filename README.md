@@ -5,12 +5,15 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 
-[Watch Demo Video](./assets/trailer.mp4)
+[API LIVE DEMO](./assets/swaggerapi.png)
 
 
 Add PNG/JPG/SVG files to this folder for use in documentation.
 
 **Live Demo**: [https://fastify-api-xi.vercel.app/](https://fastify-api-xi.vercel.app/)
+
+[expanded api preview](./assets/expandedAPI.png)
+
 **API Documentation**: [https://fastify-api-xi.vercel.app/docs](https://fastify-api-xi.vercel.app/docs)
 
 ## Table of Contents
