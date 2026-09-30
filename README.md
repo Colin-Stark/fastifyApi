@@ -5,6 +5,12 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 
+<img width="1730" height="1026" alt="expandedAPI" src="https://github.com/user-attachments/assets/37ee7b99-d068-4a3e-bdec-8e40aab463e2" />
+
+## TEST API WITH THIS URL
+
+**API Documentation**: [https://fastify-api-xi.vercel.app/docs](https://fastify-api-xi.vercel.app/docs)
+
 <img width="1700" height="1031" alt="swaggerapi" src="https://github.com/user-attachments/assets/664ce097-3d23-4b76-94d9-0c756e057e3b" />
 
 
@@ -17,10 +23,7 @@ Add PNG/JPG/SVG files to this folder for use in documentation.
 
 **Live Demo**: [https://fastify-api-xi.vercel.app/](https://fastify-api-xi.vercel.app/)
 
-<img width="1730" height="1026" alt="expandedAPI" src="https://github.com/user-attachments/assets/37ee7b99-d068-4a3e-bdec-8e40aab463e2" />
 
-
-**API Documentation**: [https://fastify-api-xi.vercel.app/docs](https://fastify-api-xi.vercel.app/docs)
 
 ## Table of Contents
 - [Overview](#overview)
