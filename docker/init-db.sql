@@ -30,16 +30,9 @@ CREATE TABLE "users" (
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
 	"updated_at" timestamp with time zone DEFAULT now() NOT NULL
 );
-CREATE UNIQUE INDEX "accounts_pkey" ON "accounts" ("id");
-CREATE UNIQUE INDEX "accounts_user_id_account_type_key" ON "accounts" ("user_id","account_type");
 CREATE INDEX "ix_transactions_account_id" ON "transactions" ("account_id");
 CREATE INDEX "ix_transactions_created_at" ON "transactions" ("created_at");
 CREATE INDEX "ix_transactions_destination_account_id" ON "transactions" ("destination_account_id");
-CREATE UNIQUE INDEX "transactions_pkey" ON "transactions" ("id");
-CREATE UNIQUE INDEX "uq_transactions_idempotency_key" ON "transactions" ("idempotency_key");
-CREATE UNIQUE INDEX "users_email_key" ON "users" ("email");
-CREATE UNIQUE INDEX "users_pkey" ON "users" ("id");
-CREATE UNIQUE INDEX "users_username_key" ON "users" ("username");
 ALTER TABLE "accounts" ADD CONSTRAINT "accounts_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE;
 ALTER TABLE "transactions" ADD CONSTRAINT "fk_transactions_destination_account" FOREIGN KEY ("destination_account_id") REFERENCES "accounts"("id") ON DELETE SET NULL;
 ALTER TABLE "transactions" ADD CONSTRAINT "fk_transactions_source_account" FOREIGN KEY ("account_id") REFERENCES "accounts"("id") ON DELETE SET NULL;
