@@ -119,8 +119,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 The project uses the following PostgreSQL schema (verified against Neon project "frosty-dream-67859921" on branch "br-green-morning-awwdadcf"):
 
 ```sql
-CREATE SCHEMA "public";
-CREATE SCHEMA "auth";
 CREATE TABLE "accounts" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid(),
 	"user_id" uuid NOT NULL,
