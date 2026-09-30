@@ -2,9 +2,10 @@
 
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D%2018-blue.svg)](https://nodejs.org/)
 [![Fastify](https://img.shields.io/badge/framework-fastify-green.svg)](https://www.fastify.io/)
-[![Vercel](https://img.shields.io/badge/deployed-on-vercel-000000.svg)](https://vercel.com)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+
+[Watch Demo Video](./assets/trailer.mp4)
 
 
 Add PNG/JPG/SVG files to this folder for use in documentation.
